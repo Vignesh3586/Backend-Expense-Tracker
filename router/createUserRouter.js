@@ -4,3 +4,5 @@ const {createUser}=require("../controllers/userController")
 
 router
   .get("/",createUser)
+
+module.exports=router

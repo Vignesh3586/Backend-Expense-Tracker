@@ -8,3 +8,5 @@ router
    .get("/",loginUser)
    .get("/:email",existsEmail)
    .put("/",updatePassword)
+
+   module.exports=router
