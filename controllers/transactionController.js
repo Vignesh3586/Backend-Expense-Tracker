@@ -6,8 +6,8 @@ const getAllTransactions=async(req,res)=>{
         res.status(200).send({
             transactions:allTransactions.transactions,
             data:allTransactions.data})
-    }catch(err){
-        res.status(404).send({message:err.message})
+    }catch(error){
+        res.status(404).send({message:error.message})
     }
 }
 
@@ -23,8 +23,8 @@ const getTransactionById=(req,res)=>{
         const user=findUser(req.body.email)
         const transaction=user.transactions.find((transaction)=>transaction._id.toString()===req.params.id)
         res.status(201).send(transaction)
-    }catch(err){
-        res.status(500).send({message:err.message})
+    }catch(error){
+        res.status(500).send({message:error.message})
     }
 }
 
@@ -65,8 +65,8 @@ const insertTransaction=(req,res)=>{
        })
        chooseTransaction(email,transactionType,transactionAmount)
        res.status(200).send({message:"Transaction created successfully"})
-    }catch(err){
-        res.status(404).send({message:err.message})
+    }catch(error){
+        res.status(404).send({message:error.message})
     }
 }
 
@@ -79,8 +79,8 @@ const updateTransaction=async(req,res)=>{
         findEntryById.tranasactionType=req.tranasactionType,
         await user.save()
         res.status(200).send({message:"Transaction updated successfully"})
-     }catch(err){
-         req.status(404).send({message:err.message})
+     }catch(error){
+         req.status(404).send({message:error.message})
      }
 }
 
@@ -90,8 +90,8 @@ const deleteTransaction=async(req,res)=>{
         user.transactions=user.transactions.filter(entry=>entry._id!=req.params.id)
         await user.save()
         res.status(200).send({message:"Transaction deleted successfully"})
-     }catch(err){
-         res.status(404).send({message:err.message})
+     }catch(error){
+         res.status(404).send({message:error.message})
      }
 }
 

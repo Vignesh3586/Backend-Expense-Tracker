@@ -7,15 +7,19 @@ const getTimeUntillNextMonth=()=>{
     return new Date(year,nextMonth,1)-now
 }
 
-const resetAnalysis=()=>{
+const resetAnalysis=(req,res,next)=>{
     const time=getTimeUntillNextMonth()
+     
+    const resetFunction=async()=>{
+            if(new Date().getMonth()==0){
+              await transaction.resetYear()
+            }
+           await transaction.resetMonth()
+    }
 
-    setInterval(async()=>{
-        if(new Date().getMonth()==0){
-          await transaction.resetYear()
-        }
-       await transaction.resetMonth()
-    },time)
+
+    setInterval(resetFunction,time)
+    next()
 }
 
 module.exports=resetAnalysis

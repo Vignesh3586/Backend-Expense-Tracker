@@ -1,10 +1,10 @@
 const transaction=require("../model/transactionSchema")
 
 const findUser=async(email)=>{
-    await transaction.findOne({"userDetails.email":email})
+    await transaction.findOne({email})
 }
 
-const existsEmail=()=>{
+const existsEmail=(req,res)=>{
     const {email}=req.params
     const user=findUser(email)
     try{
@@ -33,12 +33,11 @@ const loginUser=async(req,res)=>{
 
         return res.status(200).send({message:"Login successful"})
     }catch(error){
-        console.error(err.message)
         res.status(500).send({message:error.message})
     }
 }
 
-const updatePassword=async()=>{
+const updatePassword=async(req,res)=>{
     const {email,password}=req.body
     try{
         const user=findUser(email)
@@ -58,8 +57,7 @@ const createUser=async(req,res)=>{
         await newUser.save()
         res.status(201).send({message:"User created Scccessfully"})
     }catch(error){
-        console.error(error.message)
-        res.status(500).send({messge:error.message})
+        res.status(500).send({message:error.message})
     }
 }
 

@@ -32,7 +32,7 @@ try{
 })
 
 userDetailsSchema.methods.comparePassword=async function(userPassword){
-   return bcrypt.compare(userPassword,thisPassWord)
+   return bcrypt.compare(userPassword,this.password)
 }
 
 
