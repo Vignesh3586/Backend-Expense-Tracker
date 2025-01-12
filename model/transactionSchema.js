@@ -1,6 +1,8 @@
 const mongoose=require("mongoose")
 const bcrypt=require('bcrypt')
 
+mongoose.connect("mongodb+srv://admin:npC-4e9mkDn.fAS@cluster0.2i2yy.mongodb.net/")
+
 const userDetailsSchema=new mongoose.Schema({
    email:{
       type:String,
