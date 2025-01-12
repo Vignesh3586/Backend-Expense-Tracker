@@ -38,11 +38,23 @@ const loginUser=async(req,res)=>{
     }
 }
 
+const updatePassword=async()=>{
+    const {email,password}=req.body
+    try{
+        const user=findUser(email)
+        await user.updateOne({email:email},{$set:{"userDetails.password":password}})
+        res.status(200).send({message:"Password updated successfully"})
+    }catch(error){
+        res.status(404).send({message:error.message})
+    }
+  
+}
+
 const createUser=async(req,res)=>{
     
     const {email,password}=req.body
     try{
-        const newUser=new transaction({email:email,password:password})
+        const newUser=new transaction({userData:{email:email,password:password}})
         await newUser.save()
         res.status(201).send({message:"User created Scccessfully"})
     }catch(error){
@@ -52,4 +64,4 @@ const createUser=async(req,res)=>{
 }
 
 
-module.exports={existsEmail,createUser,loginUser}
+module.exports={existsEmail,createUser,loginUser,updatePassword}

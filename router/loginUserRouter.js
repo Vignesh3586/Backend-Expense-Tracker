@@ -1,5 +1,5 @@
 const express=require("express")
-const { loginUser, existsEmail } = require("../controllers/userController")
+const { loginUser, existsEmail,updatePassword } = require("../controllers/userController")
 
 const router=express.Router()
 
@@ -7,4 +7,4 @@ const router=express.Router()
 router
    .get("/",loginUser)
    .get("/:email",existsEmail)
-   .put("/:email",updatePassword)
+   .put("/",updatePassword)
