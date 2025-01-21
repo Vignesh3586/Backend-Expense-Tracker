@@ -55,7 +55,8 @@ const chooseTransaction=async(email,tranasactionType,transactionAmount)=>{
 }
 
 const insertTransaction=(req,res)=>{
-    const{transactionType,transactionAmount,transactionName,email}=req.body
+    const {transactionType,transactionAmount,transactionName}=req.body
+    const {email}=req.params
     const user=findUser(email)
     try{
        user.transactions.push(

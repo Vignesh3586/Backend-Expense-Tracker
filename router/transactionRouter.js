@@ -3,9 +3,9 @@ const router=express.Router()
 const { getAllTransactions, getTransactionById, insertTransaction, updateTransaction, deleteTransaction }=require("../controllers/transactionController")
 
 router
-  .get("/",getAllTransactions)
+  .get("/:email",getAllTransactions)
   .get("/:id",getTransactionById)
-  .post("/",insertTransaction)
+  .post("/:email",insertTransaction)
   .put("/:id",updateTransaction)
   .delete("/:id",deleteTransaction)
 
