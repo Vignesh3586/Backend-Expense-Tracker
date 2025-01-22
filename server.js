@@ -7,7 +7,7 @@ const loginRouter=require("./router/loginUserRouter")
 const createUserRouter=require("./router/createUserRouter")
 const resetAnalysis=require("./controllers/timeController")
 
-const PORT=process.env.port || 3000
+const port=process.env.PORT 
 
 app.use(express.json());
 
@@ -27,4 +27,4 @@ app.use("/create-user",createUserRouter)
 app.use("/",loginRouter)
 
 
-app.listen(PORT,()=>{console.log("server is running on "+PORT)})
+app.listen(port,()=>{console.log("server is running on "+port)})
