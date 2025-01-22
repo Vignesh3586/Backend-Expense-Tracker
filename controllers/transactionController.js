@@ -2,7 +2,7 @@ const transaction=require("../model/transactionSchema")
 
 const getAllTransactions=async(req,res)=>{
     try{
-        const allTransactions=await transaction.find({"userDetails.email":req.email,"userDetails.password":req.password})
+        const allTransactions=await transaction.find({"userDetails.email":req.params.email})
         res.status(200).send({
             transactions:allTransactions.transactions,
             data:allTransactions.data})

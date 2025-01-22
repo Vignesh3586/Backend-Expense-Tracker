@@ -16,7 +16,7 @@ const existsEmail=async(req,res)=>{
         if(user){
             res.status(200).json(user)
          }else{
-            res.status(400).json({messsage:"This email does not exisist"})
+            res.status(400).json({messsage:"This email does not exsist"})
          }
        }catch(error){
         res.status(404).json({messsage:error.message})
@@ -57,7 +57,7 @@ const loginUser=async(req,res)=>{
 }
 
 const updatePassword=async(req,res)=>{
-    const {email,password}=req.query
+    const {email,password}=req.body
     try{
         const user=await findUser(email)
         if(!user){
