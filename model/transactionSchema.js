@@ -103,7 +103,8 @@ const entrySchema=new mongoose.Schema({
       required:false,
    },
    transactionType:{
-    type:Number,
+    type:String,
+    enum:["Income","Expense"],
     required:true
    }
 })

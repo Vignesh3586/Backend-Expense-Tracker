@@ -27,18 +27,23 @@ const getTransactionById=async(req,res)=>{
     }
 }
 
-const chooseTransaction=async(email,tranasactionType,transactionAmount)=>{
+const chooseTransaction=async(email,transactionType,transactionAmount)=>{
    const user=await findUser(email)
+   console.log(transactionType)
+   console.log(typeof transactionType)
    if(!user){
     throw new Error("User not found")
    }
    const number=Number(transactionAmount)
-   if(tranasactionType=="income"){
+   if(isNaN(number) || number<=0){
+    throw new Error("Invalid Number")
+   }
+   if(transactionType.toString()=="Income"){
     user.data.balance+=number
     user.data.income+=number
     user.data.trackByMonth.monthIncome+=number
     user.data.trackByYear.yearIncome+=number
-   }else if(tranasactionType=="expense"){
+   }else if(transactionType.toString()=="Expense"){
     user.data.balance-=number
     user.data.expense+=number
     user.data.trackByMonth.monthExpense+=number
@@ -53,7 +58,11 @@ const chooseTransaction=async(email,tranasactionType,transactionAmount)=>{
 const insertTransaction=async(req,res)=>{
     const {transactionType,transactionAmount,transactionName}=req.body
     const {email}=req.params
+    console.log(req.params)
+    console.log(typeof req.params)
+
     const user=await findUser(email)
+    console.log(user)
     try{
        user.transactions.push(
         {transactionName:transactionName,
@@ -62,6 +71,7 @@ const insertTransaction=async(req,res)=>{
        })
        await chooseTransaction(email,transactionType,transactionAmount)
        await user.save()
+       console.log(user)
        res.status(200).send({message:"Transaction created successfully"})
     }catch(error){
         res.status(404).send({message:error.message})
