@@ -75,4 +75,4 @@ const createUser=async(req,res)=>{
 }
 
 
-module.exports={existsEmail,createUser,loginUser,updatePassword,isMatchPasswordAndEmail}
+module.exports={existsEmail,createUser,loginUser,updatePassword}
