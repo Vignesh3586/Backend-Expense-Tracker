@@ -50,7 +50,7 @@ const updatePassword=async(req,res)=>{
         if(!user){
             res.status(404).send({message:"User not found"})
         }
-        await transaction.updateOne({"userDetails.email":email},{$set:{"userDetails.password":password}})
+        await Transaction.updateOne({"userDetails.email":email},{$set:{"userDetails.password":password}})
         res.status(200).send({message:"Password updated successfully"})
     }catch(error){
         res.status(404).send({message:error.message})
