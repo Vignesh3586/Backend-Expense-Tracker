@@ -6,6 +6,8 @@ const transactionRouter=require("./router/transactionRouter")
 const loginRouter=require("./router/loginUserRouter")
 const createUserRouter=require("./router/createUserRouter")
 const resetAnalysis=require("./controllers/timeController")
+const cors = require("cors");
+app.use(cors());
 
 const port=process.env.PORT 
 
