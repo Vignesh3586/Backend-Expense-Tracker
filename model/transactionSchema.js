@@ -1,8 +1,6 @@
 const mongoose=require("mongoose")
 const bcrypt=require('bcrypt')
 
-mongoose.connect(process.env.MONGO_URI)
-
 const userDetailsSchema=new mongoose.Schema({
    email:{
       type:String,
@@ -129,4 +127,4 @@ transactionSchema.pre("save",function(next){
 
 
 
-module.exports=mongoose.model("transaction",transactionSchema)
+module.exports=mongoose.model("Transaction",transactionSchema)

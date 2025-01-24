@@ -1,7 +1,7 @@
-const transaction=require("../model/transactionSchema")
+const Transaction=require("../model/transactionSchema")
 
 const findUser=async(email)=>{
-    const user=await transaction.findOne({"userDetails.email":email})
+    const user=await Transaction.findOne({"userDetails.email":email})
    
     if(!user){
         return ;
@@ -10,32 +10,19 @@ const findUser=async(email)=>{
 }
 
 const existsEmail=async(req,res)=>{
-    const {email}=req.query
+    const {email}=req.params
     const user=await findUser(email)
     try{
         if(user){
             res.status(200).json(user)
          }else{
-            res.status(400).json({messsage:"This email does not exsist"})
+            throw new Error("This email does not exsist")
          }
        }catch(error){
         res.status(404).json({messsage:error.message})
        }
     }
 
-const isMatchPasswordAndEmail=async(req,res)=>{
-    const {email,password}=req.query
-    const isEmail=await findUser(email)
-    if(isEmail){
-      if(isEmail.userDetails.password==password){
-        res.status(200).send({message:"Password match"})
-      }else{
-        res.status(400).send({message:"Invalid password"})
-      }
-    }else{
-        res.status(404).send({message:"This email does not exists"})
-    }
-}
 
 const loginUser=async(req,res)=>{
     const email=req.query.email
@@ -43,11 +30,11 @@ const loginUser=async(req,res)=>{
     try{
         const user=await findUser(email)
         if(!user){
-            return res.status(404).send({message:"Email not found"})
+            throw new Error("User not found")
         }
         const isMatchPassword=await user.comparePassword(password)
         if(!isMatchPassword){
-            return res.status(401).send({message:"Invalid Password"})
+           throw new Error("Invalid Password")
         }
 
         return res.status(200).send({message:"Login successful"})
@@ -76,7 +63,7 @@ const createUser=async(req,res)=>{
     try{
         const isAlreadyExsistEmail=await findUser(email)
         if(!isAlreadyExsistEmail){
-            const newUser=new transaction({userDetails:{email:email,password:password}})
+            const newUser=new Transaction({userDetails:{email:email,password:password}})
             await newUser.save()
             res.status(201).send({message:"User created Scccessfully"})
         }else{

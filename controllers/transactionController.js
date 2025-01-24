@@ -1,11 +1,10 @@
-const transaction=require("../model/transactionSchema")
+const Transaction=require("../model/transactionSchema")
 
 const getAllTransactions=async(req,res)=>{
     try{
-        const allTransactions=await transaction.find({"userDetails.email":req.params.email})
+        const allTransactions=await Transaction.findOne({"userDetails.email":req.params.email})
         res.status(200).send({
-            transactions:allTransactions.transactions,
-            data:allTransactions.data})
+            transactions:allTransactions.transactions})
     }catch(error){
         res.status(404).send({message:error.message})
     }
@@ -13,14 +12,14 @@ const getAllTransactions=async(req,res)=>{
 
 
 const findUser=async(email)=>{
-    await transaction.findOne({"userDetails.email":email})
+   return  await Transaction.findOne({"userDetails.email":email})
 }
 
 
 
-const getTransactionById=(req,res)=>{
+const getTransactionById=async(req,res)=>{
     try{
-        const user=findUser(req.body.email)
+        const user=await findUser(req.query.email)
         const transaction=user.transactions.find((transaction)=>transaction._id.toString()===req.params.id)
         res.status(201).send(transaction)
     }catch(error){
@@ -29,42 +28,32 @@ const getTransactionById=(req,res)=>{
 }
 
 const chooseTransaction=async(email,tranasactionType,transactionAmount)=>{
-   const user=findUser(email)
-   const findBalance=async()=>{
-     await user.findOne({"userDetails.key":balance})
+   const user=await findUser(email)
+   if(!user){
+    throw new Error("User not found")
    }
+  
    if(tranasactionType=="income"){
-    const balance=findBalance()
-    const balanceOfNow=Number(balance.balance) + Number(transactionAmount)
-    const income=Number(balance.income) + Number(transactionAmount)
-    const updateFields={
-        balance:balanceOfNow,
-        income:income
-    }
-    await user.updateOne({"userDetails.key":"balance"},{$set:updateFields})
-   }else{
-    const balance=await transaction.data.findOne({key:balance})
-    const balanceOfNow=Number(balance.balance) - Number(transactionAmount)
-    const expense=Number(balance.expense) + Number(transactionAmount)
-    const updateFields={
-            balance:balanceOfNow,
-            expense:expense
-        }
-    await user.updateOne({"userDetails.key":"balance"},{$set:updateFields})
+    user.data.balance+=Number(transactionAmount)
+    user.data.income+=Number(transactionAmount)
+   }else if(tranasactionType=="expense"){
+    user.data.balance-=Number(transactionAmount)
+    user.data.expense+=Number(transactionAmount)
    }
+   await user.save()
 }
 
-const insertTransaction=(req,res)=>{
+const insertTransaction=async(req,res)=>{
     const {transactionType,transactionAmount,transactionName}=req.body
     const {email}=req.params
-    const user=findUser(email)
+    const user=await findUser(email)
     try{
        user.transactions.push(
         {transactionName:transactionName,
         transactionAmount:transactionAmount,
         tranasactionType:transactionType,
        })
-       chooseTransaction(email,transactionType,transactionAmount)
+       await chooseTransaction(email,transactionType,transactionAmount)
        res.status(200).send({message:"Transaction created successfully"})
     }catch(error){
         res.status(404).send({message:error.message})
@@ -72,7 +61,7 @@ const insertTransaction=(req,res)=>{
 }
 
 const updateTransaction=async(req,res)=>{
-    const user=findUser()
+    const user=await findUser()
     try{
         const findEntryById=user.transactions.find((entry)=> entry._id==req.params.id)
         findEntryById.transactionName=req.transactionName,
