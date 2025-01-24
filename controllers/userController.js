@@ -9,7 +9,7 @@ const findUser=async(email)=>{
     return user
 }
 
-const existsEmail=async(req,res)=>{
+const fetchdataWithEmail=async(req,res)=>{
     const {email}=req.params
     const user=await findUser(email)
     try{
@@ -60,7 +60,6 @@ const updatePassword=async(req,res)=>{
 
 const createUser=async(req,res)=>{
      const {email,password}=req.body
-     console.log(email)
     try{
         const isAlreadyExsistEmail=await findUser(email)
         if(!isAlreadyExsistEmail){
@@ -76,4 +75,4 @@ const createUser=async(req,res)=>{
 }
 
 
-module.exports={existsEmail,createUser,loginUser,updatePassword}
+module.exports={fetchdataWithEmail,createUser,loginUser,updatePassword}

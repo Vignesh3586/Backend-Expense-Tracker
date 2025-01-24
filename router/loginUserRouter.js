@@ -1,12 +1,12 @@
 const express=require("express")
-const { loginUser, existsEmail,updatePassword } = require("../controllers/userController")
+const { loginUser,fetchdataWithEmail,updatePassword } = require("../controllers/userController")
 
 const router=express.Router()
 
 
 router
    .get("/",loginUser)
-   .get("/:email",existsEmail)
+   .get("/:email",fetchdataWithEmail)
    .put("/",updatePassword)
 
 module.exports=router
