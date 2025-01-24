@@ -9,4 +9,4 @@ router
    .get("/:email",existsEmail)
    .put("/",updatePassword)
 
-   module.exports=router
+module.exports=router

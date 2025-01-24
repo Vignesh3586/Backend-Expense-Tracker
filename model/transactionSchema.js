@@ -110,7 +110,10 @@ const entrySchema=new mongoose.Schema({
 
 const transactionSchema=new mongoose.Schema({
    userDetails:userDetailsSchema,
-   data:dataSchema,
+   data:{
+      type:dataSchema,
+      default:()=>({})
+   },
    transactions:{
       type:[entrySchema],
       required:false

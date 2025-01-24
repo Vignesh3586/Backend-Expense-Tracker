@@ -32,15 +32,22 @@ const chooseTransaction=async(email,tranasactionType,transactionAmount)=>{
    if(!user){
     throw new Error("User not found")
    }
-  
+   const number=Number(transactionAmount)
    if(tranasactionType=="income"){
-    user.data.balance+=Number(transactionAmount)
-    user.data.income+=Number(transactionAmount)
+    user.data.balance+=number
+    user.data.income+=number
+    user.data.trackByMonth.monthIncome+=number
+    user.data.trackByYear.yearIncome+=number
    }else if(tranasactionType=="expense"){
-    user.data.balance-=Number(transactionAmount)
-    user.data.expense+=Number(transactionAmount)
+    user.data.balance-=number
+    user.data.expense+=number
+    user.data.trackByMonth.monthExpense+=number
+    user.data.trackByYear.yearExpense+=number
+   }else{
+    throw new Error("Transactiontype not found")
    }
-   await user.save()
+
+   user.markModified("data")
 }
 
 const insertTransaction=async(req,res)=>{
@@ -58,6 +65,7 @@ const insertTransaction=async(req,res)=>{
        res.status(200).send({message:"Transaction created successfully"})
     }catch(error){
         res.status(404).send({message:error.message})
+        console.error(error.message)
     }
 }
 
