@@ -3,6 +3,6 @@ const router=express.Router()
 const {createUser}=require("../controllers/userController")
 
 router
-  .get("/",createUser)
+  .post("/",createUser)
 
 module.exports=router

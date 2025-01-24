@@ -60,6 +60,7 @@ const updatePassword=async(req,res)=>{
 
 const createUser=async(req,res)=>{
      const {email,password}=req.body
+     console.log(email)
     try{
         const isAlreadyExsistEmail=await findUser(email)
         if(!isAlreadyExsistEmail){
