@@ -51,9 +51,10 @@ const insertTransaction=async(req,res)=>{
        user.transactions.push(
         {transactionName:transactionName,
         transactionAmount:transactionAmount,
-        tranasactionType:transactionType,
+        transactionType:transactionType,
        })
        await chooseTransaction(email,transactionType,transactionAmount)
+       await user.save()
        res.status(200).send({message:"Transaction created successfully"})
     }catch(error){
         res.status(404).send({message:error.message})
