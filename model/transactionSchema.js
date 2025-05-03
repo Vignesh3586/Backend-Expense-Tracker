@@ -71,13 +71,6 @@ const dataSchema=new mongoose.Schema({
    }
 })
 
-dataSchema.statics.resetYear=function(){
- return this.updateMany({},{$set:{"trackByYear.yearExpense":0,"trackByYear.yearIncome":0}})
-}
-
-dataSchema.statics.resetMonth=function(){
-   return this.updateMany({},{$set:{"trackByMonth.monthExpense":0,"trackByMonth.monthIncome":0}})
-  }
 
 const entrySchema=new mongoose.Schema({
    _id:{
@@ -128,6 +121,13 @@ transactionSchema.pre("save",function(next){
    next()
 })
 
+dataSchema.statics.resetYear=function(){
+   return this.updateMany({},{$set:{"trackByYear.yearExpense":0,"trackByYear.yearIncome":0}})
+  }
+  
+  dataSchema.statics.resetMonth=function(){
+     return this.updateMany({},{$set:{"trackByMonth.monthExpense":0,"trackByMonth.monthIncome":0}})
+    }
 
 
 
