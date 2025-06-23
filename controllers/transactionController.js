@@ -63,13 +63,10 @@ const insertTransaction=async(req,res)=>{
   
     const user=await findUser(email)
 
-    console.log(user)
-
     if (!user.transactions) {
        user.transactions = [];
      }
      
-     console.log(user.transactions)
  
     try{
        user.transactions.push(
@@ -79,7 +76,7 @@ const insertTransaction=async(req,res)=>{
        })
        await chooseTransaction(email,transactionType,transactionAmount)
        await user.save()
-       res.status(200).send({message:"Transaction created successfully"})
+       res.status(200).send(user)
     }catch(error){
         res.status(404).send({message:error.message})
         console.error(error.message)
