@@ -76,10 +76,10 @@ const insertTransaction=async(req,res)=>{
        })
        await chooseTransaction(email,transactionType,transactionAmount)
        await user.save()
+       console.log(user)
        res.status(200).send({
         transactions:user.transactions,
         data:user.data,
-        user
        })
     }catch(error){
         res.status(404).send({message:error.message})
