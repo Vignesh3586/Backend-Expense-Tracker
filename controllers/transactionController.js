@@ -60,7 +60,16 @@ const insertTransaction=async(req,res)=>{
     const {transactionType,transactionAmount,transactionName}=req.body
     const {email}=req.params
 
+  
     const user=await findUser(email)
+
+    console.log(user)
+
+    if (!user.transactions) {
+       user.transactions = [];
+     }
+     
+     console.log(user.transactions)
  
     try{
        user.transactions.push(

@@ -10,20 +10,14 @@ app.use(cors());
 
 const port=process.env.PORT 
 
-
-
 mongoose.connect(process.env.MONGO_URI).then(()=>{
     console.log("database connected")
-
-    // reschedule
     const resetAnalysis=require("./controllers/timeController")
     app.use(resetAnalysis)
 
 })
 
 app.use(express.json());
-
-
 
 app.use("/transactions",transactionRouter)
 

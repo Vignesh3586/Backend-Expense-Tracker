@@ -110,7 +110,8 @@ const transactionSchema=new mongoose.Schema({
    },
    transactions:{
       type:[entrySchema],
-      required:false
+      required:false,
+      default:[]
    }
 })
 
