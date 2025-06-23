@@ -1,8 +1,8 @@
-const express=require("express")
-const router=express.Router()
-const {createUser}=require("../controllers/userController")
+const express = require("express")
+const router = express.Router()
+const { createUser } = require("../controllers/userController")
 
 router
-  .post("/",createUser)
+  .post("/", createUser)
 
-module.exports=router
+module.exports = router

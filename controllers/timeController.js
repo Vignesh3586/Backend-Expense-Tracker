@@ -1,6 +1,7 @@
 const transaction = require("../model/transactionSchema")
 
-// Calculate milliseconds until next month
+// reset until month
+
 const getTimeUntilNextMonth = () => {
     const now = new Date()
     const nextMonth = (now.getMonth() === 11) ? 0 : now.getMonth() + 1
@@ -9,16 +10,17 @@ const getTimeUntilNextMonth = () => {
     return nextMonthStart - now
 }
 
-// Recursively schedule reset to avoid timeout overflow
+// reset schedule
+
 const scheduleReset = () => {
     const time = getTimeUntilNextMonth()
-    const maxTimeout = 2147483647 // Max setTimeout limit (about 24.8 days)
+    const maxTimeout = 2147483647 
 
     setTimeout(async () => {
         try {
             const currentMonth = new Date().getMonth()
             
-            if (currentMonth === 0) { // January
+            if (currentMonth === 0) {
                 await transaction.resetYear()
             }
             
@@ -28,12 +30,11 @@ const scheduleReset = () => {
             console.error("Reset failed:", error)
         }
 
-        // Schedule the next reset
         scheduleReset()
     }, Math.min(time, maxTimeout))
 }
 
-// Middleware to kick off the reset scheduler
+
 const resetAnalysis = (req, res, next) => {
     scheduleReset()
     next()

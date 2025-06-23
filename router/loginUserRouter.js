@@ -1,12 +1,12 @@
-const express=require("express")
-const { loginUser,fetchdataWithEmail,updatePassword } = require("../controllers/userController")
+const express = require("express")
+const { loginUser, fetchdataWithEmail, updatePassword } = require("../controllers/userController")
 
-const router=express.Router()
+const router = express.Router()
 
 
 router
-   .get("/",loginUser)
-   .get("/:email",fetchdataWithEmail)
-   .put("/",updatePassword)
+   .get("/", loginUser)
+   .get("/:email", fetchdataWithEmail)
+   .put("/", updatePassword)
 
-module.exports=router
+module.exports = router
